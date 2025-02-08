@@ -9,7 +9,14 @@ gameboard = (function () {
     }
   }
   const getBoard = () => board;
-  return { board, getBoard };
+  const addMark = (tile, mark) => {
+    if(tile.length >= 1) {
+        return
+    } else {
+        tile[0] = mark;
+    }
+  }
+  return { board, getBoard, addMark };
 })();
 
 function player(name, mark) {
