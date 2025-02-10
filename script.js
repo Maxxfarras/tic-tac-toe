@@ -58,12 +58,12 @@ gameboard = (function () {
     }
 
     let threeInCross = false;
-    board[0][0] == board[1][1] && board[0][0] == board[2][2]
-      ? (threeInCross = true)
-      : false;
-    board[0][2] == board[1][1] && board[0][2] == board[2][0]
-      ? (threeInCross = true)
-      : false;
+    if (board[0][0] == board[1][1] && board[0][0] == board[2][2]) {
+      threeInCross = true;
+    }
+    if (board[0][2] == board[1][1] && board[0][2] == board[2][0]) {
+      threeInCross = true;
+    }
 
     if (threeInRow || threeInColumn || threeInCross) {
       return "The game has ended";
