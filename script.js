@@ -5,18 +5,23 @@ gameboard = (function () {
   for (i = 0; i < rows; i++) {
     board[i] = [];
     for (j = 0; j < columns; j++) {
+      board[i][j] = undefined;
       board[i].push(tile());
     }
   }
   const getBoard = () => board;
-  const addMark = (tile, mark) => {
-    if(tile.length >= 1) {
-        return
+  const addMark = (row, column, mark) => {
+    if (board[row][column] === undefined) {
+      board[row][column] = mark;
     } else {
-        tile[0] = mark;
+      return;
     }
-  }
-  return { board, getBoard, addMark };
+  };
+  const printBoard = () => {
+    const boardWithValues = board.map((row) => row.map((tile) => tile));
+    console.log(boardWithValues);
+  };
+  return { getBoard, addMark, printBoard };
 })();
 
 function player(name, mark) {
