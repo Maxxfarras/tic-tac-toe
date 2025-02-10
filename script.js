@@ -11,9 +11,9 @@ gameboard = (function () {
     }
   }
 */
-  let board = [['x','x','o'],
-               ['o','o','o'],
-               ['o','x','x']]  
+  let board = [['x','o','o'],
+               ['o','x','x'],
+               ['x','o','o']]  
   const getBoard = () => board;
   const addMark = (row, column, mark) => {
     if (board[row][column] === undefined) {
@@ -45,6 +45,9 @@ gameboard = (function () {
     }
     if (board[0][2] == board[1][1] && board[0][2] == board[2][0]) {
       threeInCross = true;
+    }
+    if (threeInRow || threeInColumn || threeInCross) {
+        return 'The game has ended'
     }
   }
   return { getBoard, addMark, printBoard, checkerBoard };
