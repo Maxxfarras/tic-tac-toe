@@ -1,26 +1,20 @@
 gameboard = (function () {
   rows = 3;
   columns = 3;
-  /*
+  
   board = [];
-  for (i = 0; i < rows; i++) {
+  for (i = 0; i < rows; i++) { //fix this, makes 4 arrays
     board[i] = [];
     for (j = 0; j < columns; j++) {
-      board[i][j] = undefined;
+      board[i][j] = ''; //need to work on the empty array
       board[i].push(tile());
     }
   }
-*/
-  let board = [
-    ["x", "o", "o"],
-    ["x", "o", "x"],
-    ["o", "p", "o"],
-  ];
 
   const getBoard = () => board;
 
   const addMark = (row, column, mark) => {
-    if (board[row][column] === undefined) {
+    if (board[row][column] === '.') {
       board[row][column] = mark;
     } else {
       return;
@@ -31,7 +25,7 @@ gameboard = (function () {
     const boardWithValues = board.map((row) => row.map((tile) => tile));
     console.log(boardWithValues);
   };
-
+//need to work on this, need to avoid to detect the .
   const checkerBoard = () => {
     let threeInRow = false;
     for (i = 0; i < board.length; i++) {
@@ -66,7 +60,9 @@ gameboard = (function () {
     }
 
     if (threeInRow || threeInColumn || threeInCross) {
-      return "The game has ended";
+      return true;
+    } else {
+      return false;
     }
   };
 
@@ -128,7 +124,24 @@ function gameController() {
     console.log(`Its ${activePlayer.getPlayerName()}'s turn!`)
     board.printBoard()
   }
-  printRound()
+
+  const printWinner = (player) => {
+    console.log(`The game has ended, ${player} is the winner!!`)
+  }
+
+  const newRound = () => {
+    printRound()
+    row = prompt('Row?')
+    column = prompt('Column?')
+    board.addMark(row, column, activePlayer.getPlayerMark())
+    isWin = board.checkerBoard()
+    if (isWin) {
+      printWinner(activePlayer.getPlayerName())
+      return
+    }
+    switchPlayerTurn()
+  }
+  newRound()
 }
 
 gameController();
