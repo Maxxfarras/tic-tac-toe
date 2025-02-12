@@ -73,11 +73,15 @@ gameboard = (function () {
   return { getBoard, addMark, printBoard, checkerBoard };
 })();
 
-function player(name, mark) {
-  let personalScore = 0;
-  const getPersonalScore = () => personalScore;
-  const addPersonalScore = () => (personalScore += 1);
-  return { name, mark, getPersonalScore, addPersonalScore };
+player = function(name, mark) {
+  let playerName = name;
+  let playerMark = mark;
+  let playerScore = 0;
+  const getPlayerName = () => playerName;
+  const getPlayerMark = () => playerMark
+  const getPlayerScore = () => playerScore;
+  const addPlayerScore = () => (playerScore += 1);
+  return { getPlayerName, getPlayerMark, getPlayerScore, addPlayerScore };
 }
 
 function tile() {
@@ -89,3 +93,17 @@ function tile() {
     changeValue,
   };
 }
+
+function gameController() {
+   const getPlayerInfo = (playerNum) => {
+      let playerName = prompt(`Enter player ${playerNum} name`)
+      let playerMark = prompt(`Enter player ${playerNum} mark`)
+      return {playerName, playerMark}
+   }
+   for(i = 0; i < 2; i++) {
+
+   }
+   userInfo = getPlayerInfo(1)
+}
+
+gameController()
