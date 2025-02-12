@@ -73,16 +73,16 @@ gameboard = (function () {
   return { getBoard, addMark, printBoard, checkerBoard };
 })();
 
-player = function(name, mark) {
+player = function (name, mark) {
   let playerName = name;
   let playerMark = mark;
   let playerScore = 0;
   const getPlayerName = () => playerName;
-  const getPlayerMark = () => playerMark
+  const getPlayerMark = () => playerMark;
   const getPlayerScore = () => playerScore;
   const addPlayerScore = () => (playerScore += 1);
   return { getPlayerName, getPlayerMark, getPlayerScore, addPlayerScore };
-}
+};
 
 function tile() {
   let value = 0;
@@ -95,15 +95,18 @@ function tile() {
 }
 
 function gameController() {
-   const getPlayerInfo = (playerNum) => {
-      let playerName = prompt(`Enter player ${playerNum} name`)
-      let playerMark = prompt(`Enter player ${playerNum} mark`)
-      return {playerName, playerMark}
-   }
-   for(i = 0; i < 2; i++) {
-
-   }
-   userInfo = getPlayerInfo(1)
+  const board = gameboard;
+  const getPlayerInfo = (playerNum) => {
+    let name = prompt(`Enter player ${playerNum} name`);
+    let mark = prompt(`Enter player ${playerNum} mark`);
+    return { name: name, mark: mark };
+  };
+  player1Info = getPlayerInfo(1);
+  player2Info = getPlayerInfo(2);
+  playerList = [
+    (player1 = player(player1Info.name, player1Info.mark)),
+    (player2 = player(player2Info.name, player2Info.mark)),
+  ];
 }
 
-gameController()
+gameController();
