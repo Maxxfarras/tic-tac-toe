@@ -97,15 +97,18 @@ function tile() {
 function gameController() {
   const board = gameboard; //prone to change
 
+  //prompts for player info, returns object name, mark
   const getPlayerInfo = (playerNum) => {
     let name = prompt(`Enter player ${playerNum} name`);
     let mark = prompt(`Enter player ${playerNum} mark`);
     return { name: name, mark: mark };
   };
 
+  //save in variables
   player1Info = getPlayerInfo(1);
   player2Info = getPlayerInfo(2);
 
+  //creates the player object
   const playerList = [
     (player1 = player(player1Info.name, player1Info.mark)),
     (player2 = player(player2Info.name, player2Info.mark)),
@@ -115,14 +118,14 @@ function gameController() {
 
   let activePlayer = playerList[random01]
 
+  //switches the active player
   const switchPlayerTurn = () => {
     activePlayer = activePlayer === playerList[0] ? playerList[1] : playerList[0];
   }
 
-  const getActivePlayer = () => activePlayer
-
+  //prints the current state of the board, print current turn 
   const printRound = () => {
-    console.log(`Its ${getActivePlayer().name}'s turn!`) //undefined, need to check the object methods
+    console.log(`Its ${activePlayer.getPlayerName()}'s turn!`)
     board.printBoard()
   }
   printRound()
