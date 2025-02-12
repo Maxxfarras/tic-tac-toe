@@ -95,18 +95,37 @@ function tile() {
 }
 
 function gameController() {
-  const board = gameboard;
+  const board = gameboard; //prone to change
+
   const getPlayerInfo = (playerNum) => {
     let name = prompt(`Enter player ${playerNum} name`);
     let mark = prompt(`Enter player ${playerNum} mark`);
     return { name: name, mark: mark };
   };
+
   player1Info = getPlayerInfo(1);
   player2Info = getPlayerInfo(2);
-  playerList = [
+
+  const playerList = [
     (player1 = player(player1Info.name, player1Info.mark)),
     (player2 = player(player2Info.name, player2Info.mark)),
   ];
+
+  let random01 = Math.floor(Math.random() * 2) //add random 0-1 for first turn
+
+  let activePlayer = playerList[random01]
+
+  const switchPlayerTurn = () => {
+    activePlayer = activePlayer === playerList[0] ? playerList[1] : playerList[0];
+  }
+
+  const getActivePlayer = () => activePlayer
+
+  const printRound = () => {
+    console.log(`Its ${getActivePlayer().name}'s turn!`) //undefined, need to check the object methods
+    board.printBoard()
+  }
+  printRound()
 }
 
 gameController();
