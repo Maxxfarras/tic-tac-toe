@@ -96,8 +96,7 @@ function gameController() {
   //prompts for player info, returns object name, mark
   const getPlayerInfo = (playerNum) => {
     let name = prompt(`Enter player ${playerNum} name`);
-    let mark = prompt(`Enter player ${playerNum} mark`);
-    return { name: name, mark: mark };
+    return { name: name };
   };
 
   //save in variables
@@ -106,8 +105,8 @@ function gameController() {
 
   //creates the player object
   const playerList = [
-    (player1 = player(player1Info.name, player1Info.mark)),
-    (player2 = player(player2Info.name, player2Info.mark)),
+    (player1 = player(player1Info.name, 'X')),
+    (player2 = player(player2Info.name, 'O')),
   ];
 
   let random01 = Math.floor(Math.random() * 2) //add random 0-1 for first turn
