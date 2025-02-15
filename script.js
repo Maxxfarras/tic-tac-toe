@@ -68,12 +68,14 @@ gameboard = (function () {
 
     let threeInCross = false;
     if (
+      //checks if the threeInCross elements have an undefined
       [board[0][0], board[1][1], board[2][2]].every((el) => el !== undefined)
     ) {
       if (board[0][0] == board[1][1] && board[0][0] == board[2][2]) {
         threeInCross = true;
       }
     }
+
     if (
       [board[0][2], board[1][1], board[2][0]].every((el) => el !== undefined)
     ) {
@@ -116,6 +118,7 @@ function tile() {
   };
 }
 */
+
 function gameController() {
   const board = gameboard; //prone to change
 
@@ -141,7 +144,8 @@ function gameController() {
 
   //switches the active player
   const switchPlayerTurn = () => {
-    activePlayer = activePlayer === playerList[0] ? playerList[1] : playerList[0];
+    activePlayer =
+      activePlayer === playerList[0] ? playerList[1] : playerList[0];
   };
 
   //prints the current state of the board, print current turn
@@ -154,19 +158,22 @@ function gameController() {
     console.log(`The game has ended, ${player} is the winner!!`);
   };
 
-  const newRound = () => {
-    printRound();
-    row = prompt("Row?");
-    column = prompt("Column?");
-    board.addMark(row, column, activePlayer.getPlayerMark());
-    board.printBoard()
-    isWin = board.checkerBoard()
-    if(isWin) {
-      printWinner(activePlayer.getPlayerName())
-    } else {
-      console.log('next round')
-    }
+  const clearTerminal = () => {
+    console.clear();
+  };
 
+  const newRound = () => {
+    let isWin = false;
+    while (!isWin) {
+      clearTerminal();
+      printRound();
+      row = prompt("Row?");
+      column = prompt("Column?");
+      board.addMark(row, column, activePlayer.getPlayerMark());
+      switchPlayerTurn()
+      isWin = board.checkerBoard();
+    }
+    console.log('there is a winner!')
   };
   newRound();
 }
