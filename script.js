@@ -1,20 +1,21 @@
 gameboard = (function () {
   rows = 3;
   columns = 3;
-  
+
   let board = [];
 
-  for (i = 0; i < rows; i++) { //fix this, makes 4 arrays
+  for (i = 0; i < rows; i++) {
+    //fix this, makes 4 arrays
     board[i] = [];
     for (j = 0; j < columns; j++) {
-      board[i][j] = undefined; 
+      board[i][j] = undefined;
     }
   }
 
   const getBoard = () => board;
 
   const addMark = (row, column, mark) => {
-    if (board[row][column] === '.') {
+    if (board[row][column] === undefined) {
       board[row][column] = mark;
     } else {
       return;
@@ -25,16 +26,23 @@ gameboard = (function () {
     const boardWithValues = board.map((row) => row.map((tile) => tile));
     console.log(boardWithValues);
   };
-//need to work on this, need to avoid to detect the .
+  //need to work on this, need to avoid to detect the .
   const checkerBoard = () => {
     let threeInRow = false;
     for (i = 0; i < board.length; i++) {
       for (j = 0; j < board[i].length - 2; j++) {
-        if (board[i][j] == board[i][j + 1] && board[i][j] == board[i][j + 2]) {
-          threeInRow = true;
-          break;
+        if (board[i][j] !== undefined) {
+          if (
+            board[i][j] == board[i][j + 1] &&
+            board[i][j] == board[i][j + 2]
+          ) {
+            threeInRow = true;
+            break;
+          } else {
+            continue;
+          }
         } else {
-          continue;
+          break;
         }
       }
     }
@@ -42,21 +50,36 @@ gameboard = (function () {
     let threeInColumn = false;
     for (i = 0; i < board.length; i++) {
       for (j = 0; j < board[j].length - 2; j++) {
-        if (board[j][i] == board[j + 1][i] && board[j][i] == board[j + 2][i]) {
-          threeInColumn = true;
-          break;
+        if (board[i][j] !== undefined) {
+          if (
+            board[j][i] == board[j + 1][i] &&
+            board[j][i] == board[j + 2][i]
+          ) {
+            threeInColumn = true;
+            break;
+          } else {
+            continue;
+          }
         } else {
-          continue;
+          break;
         }
       }
     }
 
     let threeInCross = false;
-    if (board[0][0] == board[1][1] && board[0][0] == board[2][2]) {
-      threeInCross = true;
+    if (
+      [board[0][0], board[1][1], board[2][2]].every((el) => el !== undefined)
+    ) {
+      if (board[0][0] == board[1][1] && board[0][0] == board[2][2]) {
+        threeInCross = true;
+      }
     }
-    if (board[0][2] == board[1][1] && board[0][2] == board[2][0]) {
-      threeInCross = true;
+    if (
+      [board[0][2], board[1][1], board[2][0]].every((el) => el !== undefined)
+    ) {
+      if (board[0][2] == board[1][1] && board[0][2] == board[2][0]) {
+        threeInCross = true;
+      }
     }
 
     if (threeInRow || threeInColumn || threeInCross) {
@@ -108,37 +131,44 @@ function gameController() {
 
   //creates the player object
   const playerList = [
-    (player1 = player(player1Info.name, 'X')),
-    (player2 = player(player2Info.name, 'O')),
+    (player1 = player(player1Info.name, "X")),
+    (player2 = player(player2Info.name, "O")),
   ];
 
-  let random01 = Math.floor(Math.random() * 2) //add random 0-1 for first turn
+  let random01 = Math.floor(Math.random() * 2); //add random 0-1 for first turn
 
-  let activePlayer = playerList[random01]
+  let activePlayer = playerList[random01];
 
   //switches the active player
   const switchPlayerTurn = () => {
     activePlayer = activePlayer === playerList[0] ? playerList[1] : playerList[0];
-  }
+  };
 
-  //prints the current state of the board, print current turn 
+  //prints the current state of the board, print current turn
   const printRound = () => {
-    console.log(`Its ${activePlayer.getPlayerName()}'s turn!`)
-    board.printBoard()
-  }
+    console.log(`Its ${activePlayer.getPlayerName()}'s turn!`);
+    board.printBoard();
+  };
 
   const printWinner = (player) => {
-    console.log(`The game has ended, ${player} is the winner!!`)
-  }
+    console.log(`The game has ended, ${player} is the winner!!`);
+  };
 
   const newRound = () => {
-    printRound()
-    row = prompt('Row?')
-    column = prompt('Column?')
-    board.addMark(row, column, activePlayer.getPlayerMark())
+    printRound();
+    row = prompt("Row?");
+    column = prompt("Column?");
+    board.addMark(row, column, activePlayer.getPlayerMark());
+    board.printBoard()
     isWin = board.checkerBoard()
-  }
-  newRound()
+    if(isWin) {
+      printWinner(activePlayer.getPlayerName())
+    } else {
+      console.log('next round')
+    }
+
+  };
+  newRound();
 }
 
 gameController();
