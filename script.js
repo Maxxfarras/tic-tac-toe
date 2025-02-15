@@ -2,12 +2,12 @@ gameboard = (function () {
   rows = 3;
   columns = 3;
   
-  board = [];
+  let board = [];
+
   for (i = 0; i < rows; i++) { //fix this, makes 4 arrays
     board[i] = [];
     for (j = 0; j < columns; j++) {
-      board[i][j] = ''; //need to work on the empty array
-      board[i].push(tile());
+      board[i][j] = undefined; 
     }
   }
 
@@ -80,6 +80,9 @@ player = function (name, mark) {
   return { getPlayerName, getPlayerMark, getPlayerScore, addPlayerScore };
 };
 
+/*
+//this whole function prone to delete
+needed for the push(), but it is not necessary any more
 function tile() {
   let value = 0;
   const getValue = () => value;
@@ -89,7 +92,7 @@ function tile() {
     changeValue,
   };
 }
-
+*/
 function gameController() {
   const board = gameboard; //prone to change
 
@@ -134,11 +137,6 @@ function gameController() {
     column = prompt('Column?')
     board.addMark(row, column, activePlayer.getPlayerMark())
     isWin = board.checkerBoard()
-    if (isWin) {
-      printWinner(activePlayer.getPlayerName())
-      return
-    }
-    switchPlayerTurn()
   }
   newRound()
 }
