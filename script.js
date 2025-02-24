@@ -5,7 +5,6 @@ gameboard = (function () {
   let board = [];
 
   for (i = 0; i < rows; i++) {
-    //fix this, makes 4 arrays
     board[i] = [];
     for (j = 0; j < columns; j++) {
       board[i][j] = undefined;
@@ -26,7 +25,8 @@ gameboard = (function () {
     const boardWithValues = board.map((row) => row.map((tile) => tile));
     console.log(boardWithValues);
   };
-  //need to work on this, need to avoid to detect the .
+
+  //need to check, returns true right away
   const checkerBoard = () => {
     let threeInRow = false;
     for (i = 0; i < board.length; i++) {
@@ -108,6 +108,7 @@ player = function (name, mark) {
 /*
 //this whole function prone to delete
 needed for the push(), but it is not necessary any more
+
 function tile() {
   let value = 0;
   const getValue = () => value;
@@ -122,7 +123,7 @@ function tile() {
 function gameController() {
   const board = gameboard; //prone to change
 
-  //prompts for player info, returns object name, mark
+  //prompts for player info, returns object name
   const getPlayerInfo = (playerNum) => {
     let name = prompt(`Enter player ${playerNum} name`);
     return { name: name };
@@ -161,21 +162,49 @@ function gameController() {
   const clearTerminal = () => {
     console.clear();
   };
-
+  
   const newRound = () => {
-    let isWin = false;
-    while (!isWin) {
-      clearTerminal();
-      printRound();
-      row = prompt("Row?");
-      column = prompt("Column?");
-      board.addMark(row, column, activePlayer.getPlayerMark());
-      switchPlayerTurn()
-      isWin = board.checkerBoard();
+    //let isWin = false;
+    for (i = 0; i < 5; i++) {
+    clearTerminal();
+    printRound();
+    //row = prompt("Row?");
+    //column = prompt("Column?");
+    row = input.getRowInput()
+    column = input.getColumnInput()
+    board.addMark(row, column, activePlayer.getPlayerMark());
+    switchPlayerTurn();
+    //isWin = board.checkerBoard();
     }
-    console.log('there is a winner!')
   };
-  newRound();
+
+  let submitBtn = newButton('#submit-button', newRound)
 }
 
-gameController();
+input = (function inputTest() {
+  let rowInput = document.querySelector("#row");
+  let columnInput = document.querySelector("#column");
+
+  const getRowInput = () => rowInput.value;
+  const getColumnInput = () => columnInput.value;
+  return {
+    getRowInput,
+    getColumnInput,
+  };
+})();
+
+function newButton(selector, func) {
+  const button = document.querySelector(selector)
+  const removeListener = () => button.removeListener('click', clickHandler())
+  button.addEventListener('click', function(event){
+    event.preventDefault()
+    console.log('click')
+    func()
+  })
+  return {
+    button,
+    removeListener
+  }
+}
+
+gameController()
