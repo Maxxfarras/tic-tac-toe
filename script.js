@@ -50,7 +50,7 @@ gameboard = (function () {
     let threeInColumn = false;
     for (i = 0; i < board.length; i++) {
       for (j = 0; j < board[j].length - 2; j++) {
-        if (board[i][j] !== undefined) {
+        if (board[j][i] !== undefined) {
           if (
             board[j][i] == board[j + 1][i] &&
             board[j][i] == board[j + 2][i]
@@ -93,6 +93,14 @@ gameboard = (function () {
 
   return { getBoard, addMark, printBoard, checkerBoard };
 })();
+
+function testFunc() {
+  gameboard.printBoard()
+  let boolean = gameboard.checkerBoard()
+  console.log(boolean)
+}
+
+testFunc()
 
 player = function (name, mark) {
   let playerName = name;
@@ -205,4 +213,4 @@ function newButton(selector, func) {
   }
 }
 
-gameController()
+//gameController()
