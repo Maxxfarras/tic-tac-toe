@@ -94,14 +94,6 @@ gameboard = (function () {
   return { getBoard, addMark, printBoard, checkerBoard };
 })();
 
-function testFunc() {
-  gameboard.printBoard()
-  let boolean = gameboard.checkerBoard()
-  console.log(boolean)
-}
-
-testFunc()
-
 player = function (name, mark) {
   let playerName = name;
   let playerMark = mark;
@@ -170,21 +162,27 @@ function gameController() {
   const clearTerminal = () => {
     console.clear();
   };
-  
+
   const newRound = () => {
     let isWin = false;
-    clearTerminal();
-    printRound();
-    row = input.getRowInput()
-    column = input.getColumnInput()
-    board.addMark(row, column, activePlayer.getPlayerMark());
-    board.printBoard()
-    switchPlayerTurn();
-    
-    //isWin = board.checkerBoard();
+    for (i = 0; i <= 9; i++) {
+      clearTerminal();
+      printRound();
+      row = input.getRowInput();
+      column = input.getColumnInput();
+      board.addMark(row, column, activePlayer.getPlayerMark());
+      board.printBoard();
+      switchPlayerTurn();
+      isWin = board.checkerBoard();
+      if (isWin) {
+        activePlayer === playerList[0] ? playerList[1] : playerList[0];
+        printWinner(activePlayer.getPlayerName());
+        break;
+      }
+    }
   };
 
-  let submitBtn = newButton('#submit-button', newRound)
+  let submitBtn = newButton("#submit-button", newRound);
 }
 
 input = (function inputTest() {
@@ -200,17 +198,17 @@ input = (function inputTest() {
 })();
 
 function newButton(selector, func) {
-  const button = document.querySelector(selector)
-  const removeListener = () => button.removeListener('click', clickHandler())
-  button.addEventListener('click', function(event){
-    event.preventDefault()
-    console.log('click')
-    func()
-  })
+  const button = document.querySelector(selector);
+  const removeListener = () => button.removeListener("click", clickHandler());
+  button.addEventListener("click", function (event) {
+    event.preventDefault();
+    console.log("click");
+    func();
+  });
   return {
     button,
-    removeListener
-  }
+    removeListener,
+  };
 }
 
-//gameController()
+gameController();
