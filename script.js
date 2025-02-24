@@ -164,18 +164,16 @@ function gameController() {
   };
   
   const newRound = () => {
-    //let isWin = false;
-    for (i = 0; i < 5; i++) {
+    let isWin = false;
     clearTerminal();
     printRound();
-    //row = prompt("Row?");
-    //column = prompt("Column?");
     row = input.getRowInput()
     column = input.getColumnInput()
     board.addMark(row, column, activePlayer.getPlayerMark());
+    board.printBoard()
     switchPlayerTurn();
+    
     //isWin = board.checkerBoard();
-    }
   };
 
   let submitBtn = newButton('#submit-button', newRound)
