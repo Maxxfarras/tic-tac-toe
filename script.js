@@ -199,4 +199,16 @@ function newButton(selector, func) {
   };
 }
 
-gameController();
+
+function DOMHandler() {
+  let gameTiles = document.querySelectorAll('.game-tile')
+  gameTiles.forEach((tile) => {
+    tile.addEventListener('click', function() {
+      alert('hello')
+    })
+  })
+}
+
+DOMHandler()
+//gameController();
+
