@@ -105,23 +105,8 @@ player = function (name, mark) {
   return { getPlayerName, getPlayerMark, getPlayerScore, addPlayerScore };
 };
 
-/*
-//this whole function prone to delete
-needed for the push(), but it is not necessary any more
-
-function tile() {
-  let value = 0;
-  const getValue = () => value;
-  const changeValue = (mark) => (value = mark);
-  return {
-    getValue,
-    changeValue,
-  };
-}
-*/
-
 function gameController() {
-  const board = gameboard; //prone to change
+  const board = gameboard;
 
   //prompts for player info, returns object name
   const getPlayerInfo = (playerNum) => {
@@ -185,6 +170,8 @@ function gameController() {
   let submitBtn = newButton("#submit-button", newRound);
 }
 
+
+//input object to retrieve info on the input box
 input = (function inputTest() {
   let rowInput = document.querySelector("#row");
   let columnInput = document.querySelector("#column");
@@ -197,6 +184,7 @@ input = (function inputTest() {
   };
 })();
 
+//button factory, create new button with click listener, and function to do
 function newButton(selector, func) {
   const button = document.querySelector(selector);
   const removeListener = () => button.removeListener("click", clickHandler());
