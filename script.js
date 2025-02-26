@@ -204,7 +204,8 @@ function DOMHandler() {
   let gameTiles = document.querySelectorAll('.game-tile')
   gameTiles.forEach((tile) => {
     tile.addEventListener('click', function() {
-      alert('hello')
+      console.log(tile.dataset.row)
+      console.log(tile.dataset.column)
     })
   })
 }
