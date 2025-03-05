@@ -173,11 +173,25 @@ function gameController() {
 
 //input object to retrieve info on the input box
 input = (function inputTest() {
-  let rowInput = document.querySelector("#row");
-  let columnInput = document.querySelector("#column");
+  //let rowInput = document.querySelector("#row");
+  //let columnInput = document.querySelector("#column");
 
-  const getRowInput = () => rowInput.value;
-  const getColumnInput = () => columnInput.value;
+  //const getRowInput = () => rowInput.value;
+  //const getColumnInput = () => columnInput.value;
+
+  let gameTiles = document.querySelectorAll('.game-tile')
+  let row
+  let column
+  gameTiles.forEach((tile) => {
+    tile.addEventListener('click', function() {
+      row = tile.dataset.row
+      column = tile.dataset.row
+    })
+  })
+
+  const getRowInput = () => row;
+  const getColumnInput = () => column;
+
   return {
     getRowInput,
     getColumnInput,
@@ -210,6 +224,9 @@ function DOMHandler() {
   })
 }
 
-DOMHandler()
+//DOMHandler()
+//not ready, just for testing
+input.getRowInput()
+input.getColumnInput()
 //gameController();
 
