@@ -108,12 +108,7 @@ player = function (name, mark) {
 function gameController() {
   const board = gameboard;
 
-  //prompts for player info, returns object name
-  const getPlayerInfo = (playerNum) => {
-    let name = prompt(`Enter player ${playerNum} name`);
-    return { name: name };
-  };
-
+  //need to link on the gamestart dialog
   //save in variables
   player1Info = getPlayerInfo(1);
   player2Info = getPlayerInfo(2);
@@ -134,24 +129,9 @@ function gameController() {
       activePlayer === playerList[0] ? playerList[1] : playerList[0];
   };
 
-  //prints the current state of the board, print current turn
-  const printRound = () => {
-    console.log(`Its ${activePlayer.getPlayerName()}'s turn!`);
-    board.printBoard();
-  };
-
-  const printWinner = (player) => {
-    console.log(`The game has ended, ${player} is the winner!!`);
-  };
-
-  const clearTerminal = () => {
-    console.clear();
-  };
-
   const newRound = () => {
     let isWin = false;
     for (i = 0; i <= 9; i++) {
-      clearTerminal();
       printRound();
       row = input.getRowInput();
       column = input.getColumnInput();
@@ -169,7 +149,6 @@ function gameController() {
 
   let submitBtn = newButton("#submit-button", newRound);
 }
-
 
 //input object to retrieve info on the input box
 input = (function inputTest() {
