@@ -101,38 +101,38 @@ player = function (name, mark) {
 };
 
 const gameStart = {
-  dialog: document.querySelector('#gamestart-dialog'),
-  form: document.querySelector('#gamestart-form'),
-  startButton: document.querySelector('#gamestart-button'),
-  player1Name: '',
-  player2Name: '',
+  dialog: document.querySelector("#gamestart-dialog"),
+  form: document.querySelector("#gamestart-form"),
+  startButton: document.querySelector("#gamestart-button"),
+  player1Name: "",
+  player2Name: "",
 
   initialize() {
-    this.startButton.addEventListener('click', () => this.showDialog())
-    this.form.addEventListener('submit', (event) => this.handleSubmit(event))
+    this.startButton.addEventListener("click", () => this.showDialog());
+    this.form.addEventListener("submit", (event) => this.handleSubmit(event));
   },
   showDialog() {
-    this.dialog.style.display = 'block'
+    this.dialog.style.display = "block";
   },
   handleSubmit(event) {
-    event.preventDefault()   
-    let formData = new FormData(this.form)
-    player1Name = formData.get('player1-name')
-    player2name = formData.get('player2-name')
-    this.dialog.style.display = 'none'
+    event.preventDefault();
+    let formData = new FormData(this.form);
+    player1Name = formData.get("player1-name");
+    player2name = formData.get("player2-name");
+    this.dialog.style.display = "none";
   },
   getPlayerNames() {
     return {
       player1: this.player1Name,
-      player2: this.player2Name
-    }
-  }
-}
+      player2: this.player2Name,
+    };
+  },
+};
 
 function gameController() {
   const board = gameboard;
 
-  gameStart.initialize()
+  gameStart.initialize();
 
   //save in variables
   player1Info = gameStart.getPlayerNames.player1;
@@ -154,28 +154,28 @@ function gameController() {
       activePlayer === playerList[0] ? playerList[1] : playerList[0];
   };
 
-  let gameTiles = document.querySelectorAll('.game-tile')
+  let gameTiles = document.querySelectorAll(".game-tile");
 
   gameTiles.forEach((tile) => {
-    tile.addEventListener('click', function() {
-      isWin = false
-      row = tile.dataset.row
-      column = tile.dataset.column
-      tile.textContent = activePlayer.getPlayerMark()
+    tile.addEventListener("click", function () {
+      isWin = false;
+      row = tile.dataset.row;
+      column = tile.dataset.column;
+      tile.textContent = activePlayer.getPlayerMark();
       board.addMark(row, column, activePlayer.getPlayerMark());
       switchPlayerTurn();
-      board.getBoard() // only for testing        
-      isWin = board.checkerBoard(); 
+      board.getBoard(); // only for testing
+      isWin = board.checkerBoard();
       if (isWin) {
-        alert(`${activePlayer.getPlayerName()} won. Hurray`) //fix, undefined on the name
+        alert(`${activePlayer.getPlayerName()} won. Hurray`); //fix, undefined on the name
       } else {
         activePlayer === playerList[0] ? playerList[1] : playerList[0];
       }
-    })
-  })
+    });
+  });
 }
 
-gameController()
+gameController();
 
 //button factory, create new button with click listener, and function to do
 function newButton(selector, func) {
