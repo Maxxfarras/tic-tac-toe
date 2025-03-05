@@ -35,13 +35,13 @@
     <footer>hello</footer>
     <dialog id="gamestart-dialog">
       <div>Start New Game</div>
-      <form action="GET">
+      <form action="GET" id="gamestart-form">
         <label for="player1-name">Enter Player 1 Name
-          <input type="text" placeholder="Player1" id="player1-name">
+          <input type="text" placeholder="Player1" id="player1-name" name="player1-name">
         </label>
         <div class="player-mark">X</div>
         <label for="player2-name"> Enter Player 2 Name
-          <input type="text" placeholder="Player2" id="player2-name">
+          <input type="text" placeholder="Player2" id="player2-name" name="player2-name">
         </label>
         <div class="player-mark">O</div>
         <button type="submit">Start!</button>

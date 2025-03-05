@@ -224,9 +224,33 @@ function DOMHandler() {
   })
 }
 
-document.querySelector('#gamestart-button').addEventListener('click', function() {
-  document.querySelector('#gamestart-dialog').style.display = 'block'
-})
+const gameStart = {
+  dialog: document.querySelector('#gamestart-dialog'),
+  form: document.querySelector('#gamestart-form'),
+  startButton: document.querySelector('#gamestart-button'),
+
+  initialize() {
+    this.startButton.addEventListener('click', () => this.showDialog())
+    this.form.addEventListener('submit', (event) => this.handleSubmit(event))
+  },
+  showDialog() {
+    this.dialog.style.display = 'block'
+  },
+  handleSubmit(event) {
+    event.preventDefault()   
+    let formData = new FormData(this.form)
+    let player1Name = formData.get('player1-name')
+    let player2name = formData.get('player2-name')
+    this.dialog.style.display = 'none'
+    return {
+      player1Name,
+      player2name
+    }
+  }
+  
+}
+
+gameStart.initialize()
 
 //DOMHandler()
 //not ready, just for testing
