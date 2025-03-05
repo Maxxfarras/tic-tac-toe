@@ -163,13 +163,12 @@ function gameController() {
       column = tile.dataset.column;
       tile.textContent = activePlayer.getPlayerMark();
       board.addMark(row, column, activePlayer.getPlayerMark());
-      switchPlayerTurn();
       board.getBoard(); // only for testing
       isWin = board.checkerBoard();
       if (isWin) {
         alert(`${activePlayer.getPlayerName()} won. Hurray`); //fix, undefined on the name
       } else {
-        activePlayer === playerList[0] ? playerList[1] : playerList[0];
+        switchPlayerTurn()
       }
     });
   });
