@@ -11,7 +11,7 @@ gameboard = (function () {
     }
   }
 
-  const getBoard = () => board;
+  const getBoard = () => console.log(board);
 
   const addMark = (row, column, mark) => {
     if (board[row][column] === undefined) {
@@ -134,7 +134,6 @@ function gameController() {
 
   gameStart.initialize()
 
-  //need to link on the gamestart dialog
   //save in variables
   player1Info = gameStart.getPlayerNames.player1;
   player2Info = gameStart.getPlayerNames.player2;
@@ -156,22 +155,22 @@ function gameController() {
   };
 
   let gameTiles = document.querySelectorAll('.game-tile')
+
   gameTiles.forEach((tile) => {
     tile.addEventListener('click', function() {
       isWin = false
-      for(i = 0; i < 9; i++) {
       row = tile.dataset.row
       column = tile.dataset.column
       tile.textContent = activePlayer.getPlayerMark()
       board.addMark(row, column, activePlayer.getPlayerMark());
       switchPlayerTurn();
-      isWin = board.checkerBoard(); //this statement seems to fail
+      board.getBoard() // only for testing        
+      isWin = board.checkerBoard(); 
       if (isWin) {
+        alert(`${activePlayer.getPlayerName()} won. Hurray`) //fix, undefined on the name
+      } else {
         activePlayer === playerList[0] ? playerList[1] : playerList[0];
-        alert('someone won yay')
-        printWinner(activePlayer.getPlayerName());
       }
-    }
     })
   })
 }
