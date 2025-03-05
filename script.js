@@ -224,6 +224,10 @@ function DOMHandler() {
   })
 }
 
+document.querySelector('#gamestart-button').addEventListener('click', function() {
+  document.querySelector('#gamestart-dialog').style.display = 'block'
+})
+
 //DOMHandler()
 //not ready, just for testing
 input.getRowInput()
