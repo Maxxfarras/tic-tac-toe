@@ -21,11 +21,6 @@ gameboard = (function () {
     }
   };
 
-  const printBoard = () => {
-    const boardWithValues = board.map((row) => row.map((tile) => tile));
-    console.log(boardWithValues);
-  };
-
   //need to check, returns true right away
   const checkerBoard = () => {
     let threeInRow = false;
@@ -91,7 +86,7 @@ gameboard = (function () {
     }
   };
 
-  return { getBoard, addMark, printBoard, checkerBoard };
+  return { getBoard, addMark, checkerBoard };
 })();
 
 player = function (name, mark) {
@@ -105,18 +100,49 @@ player = function (name, mark) {
   return { getPlayerName, getPlayerMark, getPlayerScore, addPlayerScore };
 };
 
+const gameStart = {
+  dialog: document.querySelector('#gamestart-dialog'),
+  form: document.querySelector('#gamestart-form'),
+  startButton: document.querySelector('#gamestart-button'),
+  player1Name: '',
+  player2Name: '',
+
+  initialize() {
+    this.startButton.addEventListener('click', () => this.showDialog())
+    this.form.addEventListener('submit', (event) => this.handleSubmit(event))
+  },
+  showDialog() {
+    this.dialog.style.display = 'block'
+  },
+  handleSubmit(event) {
+    event.preventDefault()   
+    let formData = new FormData(this.form)
+    player1Name = formData.get('player1-name')
+    player2name = formData.get('player2-name')
+    this.dialog.style.display = 'none'
+  },
+  getPlayerNames() {
+    return {
+      player1: this.player1Name,
+      player2: this.player2Name
+    }
+  }
+}
+
 function gameController() {
   const board = gameboard;
 
+  gameStart.initialize()
+
   //need to link on the gamestart dialog
   //save in variables
-  player1Info = getPlayerInfo(1);
-  player2Info = getPlayerInfo(2);
+  player1Info = gameStart.getPlayerNames.player1;
+  player2Info = gameStart.getPlayerNames.player2;
 
   //creates the player object
   const playerList = [
-    (player1 = player(player1Info.name, "X")),
-    (player2 = player(player2Info.name, "O")),
+    (player1 = player(player1Info, "X")),
+    (player2 = player(player2Info, "O")),
   ];
 
   let random01 = Math.floor(Math.random() * 2); //add random 0-1 for first turn
@@ -129,53 +155,28 @@ function gameController() {
       activePlayer === playerList[0] ? playerList[1] : playerList[0];
   };
 
-  const newRound = () => {
-    let isWin = false;
-    for (i = 0; i <= 9; i++) {
-      printRound();
-      row = input.getRowInput();
-      column = input.getColumnInput();
-      board.addMark(row, column, activePlayer.getPlayerMark());
-      board.printBoard();
-      switchPlayerTurn();
-      isWin = board.checkerBoard();
-      if (isWin) {
-        activePlayer === playerList[0] ? playerList[1] : playerList[0];
-        printWinner(activePlayer.getPlayerName());
-        break;
-      }
-    }
-  };
-
-  let submitBtn = newButton("#submit-button", newRound);
-}
-
-//input object to retrieve info on the input box
-input = (function inputTest() {
-  //let rowInput = document.querySelector("#row");
-  //let columnInput = document.querySelector("#column");
-
-  //const getRowInput = () => rowInput.value;
-  //const getColumnInput = () => columnInput.value;
-
   let gameTiles = document.querySelectorAll('.game-tile')
-  let row
-  let column
   gameTiles.forEach((tile) => {
     tile.addEventListener('click', function() {
+      isWin = false
+      for(i = 0; i < 9; i++) {
       row = tile.dataset.row
-      column = tile.dataset.row
+      column = tile.dataset.column
+      tile.textContent = activePlayer.getPlayerMark()
+      board.addMark(row, column, activePlayer.getPlayerMark());
+      switchPlayerTurn();
+      isWin = board.checkerBoard(); //this statement seems to fail
+      if (isWin) {
+        activePlayer === playerList[0] ? playerList[1] : playerList[0];
+        alert('someone won yay')
+        printWinner(activePlayer.getPlayerName());
+      }
+    }
     })
   })
+}
 
-  const getRowInput = () => row;
-  const getColumnInput = () => column;
-
-  return {
-    getRowInput,
-    getColumnInput,
-  };
-})();
+gameController()
 
 //button factory, create new button with click listener, and function to do
 function newButton(selector, func) {
@@ -191,49 +192,3 @@ function newButton(selector, func) {
     removeListener,
   };
 }
-
-
-function DOMHandler() {
-  let gameTiles = document.querySelectorAll('.game-tile')
-  gameTiles.forEach((tile) => {
-    tile.addEventListener('click', function() {
-      console.log(tile.dataset.row)
-      console.log(tile.dataset.column)
-    })
-  })
-}
-
-const gameStart = {
-  dialog: document.querySelector('#gamestart-dialog'),
-  form: document.querySelector('#gamestart-form'),
-  startButton: document.querySelector('#gamestart-button'),
-
-  initialize() {
-    this.startButton.addEventListener('click', () => this.showDialog())
-    this.form.addEventListener('submit', (event) => this.handleSubmit(event))
-  },
-  showDialog() {
-    this.dialog.style.display = 'block'
-  },
-  handleSubmit(event) {
-    event.preventDefault()   
-    let formData = new FormData(this.form)
-    let player1Name = formData.get('player1-name')
-    let player2name = formData.get('player2-name')
-    this.dialog.style.display = 'none'
-    return {
-      player1Name,
-      player2name
-    }
-  }
-  
-}
-
-gameStart.initialize()
-
-//DOMHandler()
-//not ready, just for testing
-input.getRowInput()
-input.getColumnInput()
-//gameController();
-
