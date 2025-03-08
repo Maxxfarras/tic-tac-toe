@@ -125,8 +125,7 @@ const gameStart = {
 gameStart.initialize();
 
 function roundController(board, activePlayer, gameTiles, playerList) {
-
-  let round = 0
+  let round = 0;
 
   //switches the active player
   const switchPlayerTurn = () => {
@@ -150,13 +149,13 @@ function roundController(board, activePlayer, gameTiles, playerList) {
     tile.textContent = activePlayer.getPlayerMark();
     board.addMark(row, column, activePlayer.getPlayerMark());
     isWin = board.checkerBoard();
-    tile.removeEventListener('click', clickHandler)
-    round += 1
+    tile.removeEventListener("click", clickHandler);
+    round += 1;
     if (isWin) {
-      console.log(`Game Over ${activePlayer.getPlayerName()} is the winner`)
+      console.log(`Game Over ${activePlayer.getPlayerName()} is the winner`);
       removeClickHandler(gameTiles, clickHandler);
     } else if (round >= 9) {
-      console.log('It is a draw')
+      console.log("It is a draw");
       removeClickHandler(gameTiles, clickHandler);
     } else {
       switchPlayerTurn();
