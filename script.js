@@ -139,7 +139,7 @@ function roundController(board, activePlayer, gameTiles, playerList) {
     });
   }
 
-  roundPopup(activePlayer.getPlayerName());
+  roundPopup('start', activePlayer.getPlayerName());
 
   function clickHandler(event) {
     let tile = event.target;
@@ -152,14 +152,14 @@ function roundController(board, activePlayer, gameTiles, playerList) {
     tile.removeEventListener("click", clickHandler);
     round += 1;
     if (isWin) {
-      console.log(`Game Over ${activePlayer.getPlayerName()} is the winner`);
+      roundPopup('roundWinner', activePlayer.getPlayerName())
       removeClickHandler(gameTiles, clickHandler);
     } else if (round >= 9) {
-      console.log("It is a draw");
+      roundPopup('draw', activePlayer.getPlayerName())
       removeClickHandler(gameTiles, clickHandler);
     } else {
       switchPlayerTurn();
-      roundPopup(activePlayer.getPlayerName());
+      roundPopup('round',activePlayer.getPlayerName());
     }
   }
 
@@ -192,7 +192,6 @@ function newButton(selector, func) {
   const removeListener = () => button.removeListener("click", clickHandler());
   button.addEventListener("click", function (event) {
     event.preventDefault();
-    console.log("click");
     func();
   });
   return {
@@ -201,10 +200,26 @@ function newButton(selector, func) {
   };
 }
 
-function roundPopup(activePlayer) {
+function roundPopup(action, activePlayer) {
   let popup = document.querySelector("#round-popup");
   popup.style.display = "block";
-  popup.innerHTML = `It's ${activePlayer} turn!`;
+  switch (action) {
+    case 'start':
+      popup.innerHTML = `The game started, It's ${activePlayer} turn`;
+      break
+    case 'round':
+      popup.innerHTML = `It's ${activePlayer} turn!`;
+      break
+    case 'roundWinner':
+      popup.innerHTML = `Round won by ${activePlayer}!`;
+      break
+    case 'draw':
+      popup.innerHTML = 'There is a draw!';
+      break
+    case 'gameWinner':
+       popup.innerHTML = `The game has ended, ${activePlayer} is the winner!!!`;
+       break
+  }
 
   //disappear after 2 seconds
   setTimeout(() => {
