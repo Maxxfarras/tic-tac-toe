@@ -104,8 +104,6 @@ const gameStart = {
   dialog: document.querySelector("#gamestart-dialog"),
   form: document.querySelector("#gamestart-form"),
   startButton: document.querySelector("#gamestart-button"),
-  player1Name: "",
-  player2Name: "",
 
   initialize() {
     this.startButton.addEventListener("click", () => this.showDialog());
@@ -118,43 +116,20 @@ const gameStart = {
     event.preventDefault();
     let formData = new FormData(this.form);
     player1Name = formData.get("player1-name");
-    player2name = formData.get("player2-name");
+    player2Name = formData.get("player2-name");
     this.dialog.style.display = "none";
-  },
-  getPlayerNames() {
-    return {
-      player1: this.player1Name,
-      player2: this.player2Name,
-    };
+    gameController(player1Name, player2Name)
   },
 };
 
-function gameController() {
-  const board = gameboard;
+gameStart.initialize()
 
-  gameStart.initialize();
-
-  //save in variables
-  player1Info = gameStart.getPlayerNames.player1;
-  player2Info = gameStart.getPlayerNames.player2;
-
-  //creates the player object
-  const playerList = [
-    (player1 = player(player1Info, "X")),
-    (player2 = player(player2Info, "O")),
-  ];
-
-  let random01 = Math.floor(Math.random() * 2); //add random 0-1 for first turn
-
-  let activePlayer = playerList[random01];
-
+function roundController(board, activePlayer, gameTiles, playerList) {
   //switches the active player
   const switchPlayerTurn = () => {
     activePlayer =
       activePlayer === playerList[0] ? playerList[1] : playerList[0];
   };
-
-  let gameTiles = document.querySelectorAll(".game-tile");
 
   gameTiles.forEach((tile) => {
     tile.addEventListener("click", function () {
@@ -164,10 +139,9 @@ function gameController() {
       column = tile.dataset.column;
       tile.textContent = activePlayer.getPlayerMark();
       board.addMark(row, column, activePlayer.getPlayerMark());
-      board.getBoard(); // only for testing
       isWin = board.checkerBoard();
       if (isWin) {
-        alert(`${activePlayer.getPlayerName()} won. Hurray`); //fix, undefined on the name
+        alert(`${activePlayer.getPlayerName()} won. Hurray`); 
       } else {
         switchPlayerTurn()
       }
@@ -175,7 +149,23 @@ function gameController() {
   });
 }
 
-gameController();
+function gameController(player1Name, player2Name) {
+  const board = gameboard;
+
+  //creates the player object
+  const playerList = [
+    (player1 = player(player1Name, "X")),
+    (player2 = player(player2Name, "O")),
+  ];
+
+  let random01 = Math.floor(Math.random() * 2); //add random 0-1 for first turn
+
+  let activePlayer = playerList[random01];
+
+  let gameTiles = document.querySelectorAll(".game-tile");
+
+  roundController(board, activePlayer, gameTiles, playerList)
+}
 
 //button factory, create new button with click listener, and function to do
 function newButton(selector, func) {
