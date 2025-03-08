@@ -139,27 +139,29 @@ function roundController(board, activePlayer, gameTiles, playerList) {
     });
   }
 
-  roundPopup('start', activePlayer.getPlayerName());
+  roundPopup("start", activePlayer.getPlayerName());
 
   function clickHandler(event) {
     let tile = event.target;
     let isWin = false;
+    let activePlayerName = activePlayer.getPlayerName();
+    let activePlayerMark = activePlayer.getPlayerMark();
     let row = tile.dataset.row;
     let column = tile.dataset.column;
-    tile.textContent = activePlayer.getPlayerMark();
-    board.addMark(row, column, activePlayer.getPlayerMark());
+    tile.textContent = activePlayerMark;
+    board.addMark(row, column, activePlayerMark);
     isWin = board.checkerBoard();
     tile.removeEventListener("click", clickHandler);
     round += 1;
     if (isWin) {
-      roundPopup('roundWinner', activePlayer.getPlayerName())
+      roundPopup("roundWinner", activePlayerName);
       removeClickHandler(gameTiles, clickHandler);
     } else if (round >= 9) {
-      roundPopup('draw', activePlayer.getPlayerName())
+      roundPopup("draw", activePlayerName);
       removeClickHandler(gameTiles, clickHandler);
     } else {
       switchPlayerTurn();
-      roundPopup('round',activePlayer.getPlayerName());
+      roundPopup("round", activePlayer.getPlayerName());
     }
   }
 
@@ -204,21 +206,21 @@ function roundPopup(action, activePlayer) {
   let popup = document.querySelector("#round-popup");
   popup.style.display = "block";
   switch (action) {
-    case 'start':
+    case "start":
       popup.innerHTML = `The game started, It's ${activePlayer} turn`;
-      break
-    case 'round':
+      break;
+    case "round":
       popup.innerHTML = `It's ${activePlayer} turn!`;
-      break
-    case 'roundWinner':
+      break;
+    case "roundWinner":
       popup.innerHTML = `Round won by ${activePlayer}!`;
-      break
-    case 'draw':
-      popup.innerHTML = 'There is a draw!';
-      break
-    case 'gameWinner':
-       popup.innerHTML = `The game has ended, ${activePlayer} is the winner!!!`;
-       break
+      break;
+    case "draw":
+      popup.innerHTML = "There is a draw!";
+      break;
+    case "gameWinner":
+      popup.innerHTML = `The game has ended, ${activePlayer} is the winner!!!`;
+      break;
   }
 
   //disappear after 2 seconds
