@@ -89,10 +89,19 @@ body {
   background-color: var(--green-strong);
 }
 
-#gamestart-dialog {
+#gamestart-dialog,
+#round-popup {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   height: 50vh;
+  width: 50vh;
+}
+
+#round-popup {
+  background-color: white;
+  display: none;
+  align-items: center;
+
 }

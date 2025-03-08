@@ -158,6 +158,7 @@ function gameController() {
 
   gameTiles.forEach((tile) => {
     tile.addEventListener("click", function () {
+      roundPopup(activePlayer.getPlayerName())
       isWin = false;
       row = tile.dataset.row;
       column = tile.dataset.column;
@@ -189,4 +190,15 @@ function newButton(selector, func) {
     button,
     removeListener,
   };
+}
+
+function roundPopup(activePlayer) {
+  let popup = document.querySelector('#round-popup')
+  popup.style.display = 'block'
+  popup.innerHTML = `It's ${activePlayer} turn!`
+
+  //disappear after 2 seconds
+  setTimeout(() => {
+    popup.style.display = 'none'
+  }, 2000)
 }
