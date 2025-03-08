@@ -1,3 +1,4 @@
+//The main function, operates the virtual board
 gameboard = (function () {
   rows = 3;
   columns = 3;
@@ -11,7 +12,7 @@ gameboard = (function () {
     }
   }
 
-  const getBoard = () => console.log(board);
+  const getBoard = () => console.log(board); //prone to delete
 
   const addMark = (row, column, mark) => {
     if (board[row][column] === undefined) {
@@ -21,7 +22,7 @@ gameboard = (function () {
     }
   };
 
-  //need to check, returns true right away
+  //checks in every array to find if there is a 3 in row, column or cross
   const checkerBoard = () => {
     let threeInRow = false;
     for (i = 0; i < board.length; i++) {
@@ -89,6 +90,7 @@ gameboard = (function () {
   return { getBoard, addMark, checkerBoard };
 })();
 
+//creates the player obj
 player = function (name, mark) {
   let playerName = name;
   let playerMark = mark;
@@ -100,6 +102,7 @@ player = function (name, mark) {
   return { getPlayerName, getPlayerMark, getPlayerScore, addPlayerScore };
 };
 
+//responsible of the initial dialog and start the game
 const gameStart = {
   dialog: document.querySelector("#gamestart-dialog"),
   form: document.querySelector("#gamestart-form"),
@@ -124,6 +127,7 @@ const gameStart = {
 
 gameStart.initialize();
 
+//controls the flow of each round
 function roundController(board, activePlayer, gameTiles, playerList) {
   let round = 0;
 
@@ -133,6 +137,7 @@ function roundController(board, activePlayer, gameTiles, playerList) {
       activePlayer === playerList[0] ? playerList[1] : playerList[0];
   };
 
+  //removes the click event listener on the tiles
   function removeClickHandler(tiles, func) {
     tiles.forEach((tile) => {
       tile.removeEventListener("click", func);
@@ -141,6 +146,7 @@ function roundController(board, activePlayer, gameTiles, playerList) {
 
   roundPopup("start", activePlayer.getPlayerName());
 
+  //main function in charge of the round flow
   function clickHandler(event) {
     let tile = event.target;
     let isWin = false;
@@ -149,9 +155,9 @@ function roundController(board, activePlayer, gameTiles, playerList) {
     let row = tile.dataset.row;
     let column = tile.dataset.column;
     tile.textContent = activePlayerMark;
-    board.addMark(row, column, activePlayerMark);
+    board.addMark(row, column, activePlayerMark); //add to the virtual board
     isWin = board.checkerBoard();
-    tile.removeEventListener("click", clickHandler);
+    tile.removeEventListener("click", clickHandler); //removes the clickHandler to the individual tile
     round += 1;
     if (isWin) {
       roundPopup("roundWinner", activePlayerName);
@@ -160,14 +166,16 @@ function roundController(board, activePlayer, gameTiles, playerList) {
       roundPopup("draw", activePlayerName);
       removeClickHandler(gameTiles, clickHandler);
     } else {
-      switchPlayerTurn();
+      switchPlayerTurn(); //switches activePlayer in each round
       roundPopup("round", activePlayer.getPlayerName());
     }
   }
 
   gameTiles.forEach((tile) => {
-    tile.addEventListener("click", clickHandler);
+    tile.addEventListener("click", clickHandler); //adds the event listeners to the tiles
   });
+
+  //need to find a way to return the winner of each round, for the overall wins
 }
 
 function gameController(player1Name, player2Name) {
@@ -186,6 +194,8 @@ function gameController(player1Name, player2Name) {
   let gameTiles = document.querySelectorAll(".game-tile");
 
   roundController(board, activePlayer, gameTiles, playerList);
+
+  //need to work on the overall game (more than 1 round)
 }
 
 //button factory, create new button with click listener, and function to do
@@ -202,6 +212,7 @@ function newButton(selector, func) {
   };
 }
 
+//displays a popup depending on the action
 function roundPopup(action, activePlayer) {
   let popup = document.querySelector("#round-popup");
   popup.style.display = "block";
