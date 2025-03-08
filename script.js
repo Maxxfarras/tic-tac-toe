@@ -118,11 +118,11 @@ const gameStart = {
     player1Name = formData.get("player1-name");
     player2Name = formData.get("player2-name");
     this.dialog.style.display = "none";
-    gameController(player1Name, player2Name)
+    gameController(player1Name, player2Name);
   },
 };
 
-gameStart.initialize()
+gameStart.initialize();
 
 function roundController(board, activePlayer, gameTiles, playerList) {
   //switches the active player
@@ -131,21 +131,31 @@ function roundController(board, activePlayer, gameTiles, playerList) {
       activePlayer === playerList[0] ? playerList[1] : playerList[0];
   };
 
-  gameTiles.forEach((tile) => {
-    tile.addEventListener("click", function () {
-      roundPopup(activePlayer.getPlayerName())
-      isWin = false;
-      row = tile.dataset.row;
-      column = tile.dataset.column;
-      tile.textContent = activePlayer.getPlayerMark();
-      board.addMark(row, column, activePlayer.getPlayerMark());
-      isWin = board.checkerBoard();
-      if (isWin) {
-        alert(`${activePlayer.getPlayerName()} won. Hurray`); 
-      } else {
-        switchPlayerTurn()
-      }
+  function removeClickHandler(tiles, func) {
+    tiles.forEach((tile) => {
+      tile.removeEventListener("click", func);
     });
+  }
+
+  function clickHandler(event) {
+    let tile = event.target;
+    roundPopup(activePlayer.getPlayerName());
+    isWin = false;
+    row = tile.dataset.row;
+    column = tile.dataset.column;
+    tile.textContent = activePlayer.getPlayerMark();
+    board.addMark(row, column, activePlayer.getPlayerMark());
+    isWin = board.checkerBoard();
+    if (isWin) {
+      alert(`${activePlayer.getPlayerName()} won. Hurray`);
+      removeClickHandler(gameTiles, clickHandler);
+    } else {
+      switchPlayerTurn();
+    }
+  }
+
+  gameTiles.forEach((tile) => {
+    tile.addEventListener("click", clickHandler);
   });
 }
 
@@ -164,7 +174,7 @@ function gameController(player1Name, player2Name) {
 
   let gameTiles = document.querySelectorAll(".game-tile");
 
-  roundController(board, activePlayer, gameTiles, playerList)
+  roundController(board, activePlayer, gameTiles, playerList);
 }
 
 //button factory, create new button with click listener, and function to do
@@ -183,12 +193,12 @@ function newButton(selector, func) {
 }
 
 function roundPopup(activePlayer) {
-  let popup = document.querySelector('#round-popup')
-  popup.style.display = 'block'
-  popup.innerHTML = `It's ${activePlayer} turn!`
+  let popup = document.querySelector("#round-popup");
+  popup.style.display = "block";
+  popup.innerHTML = `It's ${activePlayer} turn!`;
 
   //disappear after 2 seconds
   setTimeout(() => {
-    popup.style.display = 'none'
-  }, 2000)
+    popup.style.display = "none";
+  }, 2000);
 }
