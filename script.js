@@ -129,56 +129,60 @@ gameStart.initialize();
 
 //controls the flow of each round
 function roundController(board, activePlayer, gameTiles, playerList) {
-  let round = 0;
+  return new Promise((resolve) => {
+    let round = 0;
 
-  //switches the active player
-  const switchPlayerTurn = () => {
-    activePlayer =
-      activePlayer === playerList[0] ? playerList[1] : playerList[0];
-  };
+    //switches the active player
+    const switchPlayerTurn = () => {
+      activePlayer =
+        activePlayer === playerList[0] ? playerList[1] : playerList[0];
+    };
 
-  //removes the click event listener on the tiles
-  function removeClickHandler(tiles, func) {
-    tiles.forEach((tile) => {
-      tile.removeEventListener("click", func);
-    });
-  }
-
-  roundPopup("start", activePlayer.getPlayerName());
-
-  //main function in charge of the round flow
-  function clickHandler(event) {
-    let tile = event.target;
-    let isWin = false;
-    let activePlayerName = activePlayer.getPlayerName();
-    let activePlayerMark = activePlayer.getPlayerMark();
-    let row = tile.dataset.row;
-    let column = tile.dataset.column;
-    tile.textContent = activePlayerMark;
-    board.addMark(row, column, activePlayerMark); //add to the virtual board
-    isWin = board.checkerBoard();
-    tile.removeEventListener("click", clickHandler); //removes the clickHandler to the individual tile
-    round += 1;
-    if (isWin) {
-      roundPopup("roundWinner", activePlayerName);
-      removeClickHandler(gameTiles, clickHandler);
-    } else if (round >= 9) {
-      roundPopup("draw", activePlayerName);
-      removeClickHandler(gameTiles, clickHandler);
-    } else {
-      switchPlayerTurn(); //switches activePlayer in each round
-      roundPopup("round", activePlayer.getPlayerName());
+    //removes the click event listener on the tiles
+    function removeClickHandler(tiles, func) {
+      tiles.forEach((tile) => {
+        tile.removeEventListener("click", func);
+      });
     }
-  }
 
-  gameTiles.forEach((tile) => {
-    tile.addEventListener("click", clickHandler); //adds the event listeners to the tiles
+    roundPopup("start", activePlayer.getPlayerName());
+
+    //main function in charge of the round flow
+    function clickHandler(event) {
+      let tile = event.target;
+      let isWin = false;
+      let activePlayerName = activePlayer.getPlayerName();
+      let activePlayerMark = activePlayer.getPlayerMark();
+      let row = tile.dataset.row;
+      let column = tile.dataset.column;
+      tile.textContent = activePlayerMark;
+      board.addMark(row, column, activePlayerMark); //add to the virtual board
+      isWin = board.checkerBoard();
+      tile.removeEventListener("click", clickHandler); //removes the clickHandler to the individual tile
+      round += 1;
+      if (isWin) {
+        roundPopup("roundWinner", activePlayerName);
+        removeClickHandler(gameTiles, clickHandler);
+        resolve(activePlayer);
+      } else if (round >= 9) {
+        roundPopup("draw", activePlayerName);
+        removeClickHandler(gameTiles, clickHandler);
+        resolve(undefined);
+      } else {
+        switchPlayerTurn(); //switches activePlayer in each round
+        roundPopup("round", activePlayer.getPlayerName());
+      }
+    }
+
+    gameTiles.forEach((tile) => {
+      tile.addEventListener("click", clickHandler); //adds the event listeners to the tiles
+    });
   });
 
   //need to find a way to return the winner of each round, for the overall wins
 }
 
-function gameController(player1Name, player2Name) {
+async function gameController(player1Name, player2Name) {
   const board = gameboard;
 
   //creates the player object
@@ -193,9 +197,13 @@ function gameController(player1Name, player2Name) {
 
   let gameTiles = document.querySelectorAll(".game-tile");
 
-  roundController(board, activePlayer, gameTiles, playerList);
-
-  //need to work on the overall game (more than 1 round)
+  let winner = await roundController(
+    board,
+    activePlayer,
+    gameTiles,
+    playerList
+  );
+  console.log(winner.getPlayerName());
 }
 
 //button factory, create new button with click listener, and function to do
