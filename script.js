@@ -87,7 +87,15 @@ gameboard = (function () {
     }
   };
 
-  return { getBoard, addMark, checkerBoard };
+  const resetBoard = () => {
+    for (i = 0; i < rows; i++) {
+      for (j = 0; j < columns; j++) {
+        board[i][j] = undefined;
+      }
+    }
+  };
+
+  return { getBoard, addMark, checkerBoard, resetBoard };
 })();
 
 //creates the player obj
@@ -128,9 +136,10 @@ const gameStart = {
 gameStart.initialize();
 
 //controls the flow of each round
-function roundController(board, activePlayer, gameTiles, playerList) {
+function roundController(board, gameTiles, playerList) {
   return new Promise((resolve) => {
     let round = 0;
+    let activePlayer
 
     //switches the active player
     const switchPlayerTurn = () => {
@@ -144,6 +153,10 @@ function roundController(board, activePlayer, gameTiles, playerList) {
         tile.removeEventListener("click", func);
       });
     }
+
+    let random01 = Math.floor(Math.random() * 2); //add random 0-1 for first turn
+
+    activePlayer = playerList[random01];
 
     roundPopup("start", activePlayer.getPlayerName());
 
@@ -178,8 +191,6 @@ function roundController(board, activePlayer, gameTiles, playerList) {
       tile.addEventListener("click", clickHandler); //adds the event listeners to the tiles
     });
   });
-
-  //need to find a way to return the winner of each round, for the overall wins
 }
 
 async function gameController(player1Name, player2Name) {
@@ -191,19 +202,39 @@ async function gameController(player1Name, player2Name) {
     (player2 = player(player2Name, "O")),
   ];
 
-  let random01 = Math.floor(Math.random() * 2); //add random 0-1 for first turn
-
-  let activePlayer = playerList[random01];
-
   let gameTiles = document.querySelectorAll(".game-tile");
 
-  let winner = await roundController(
-    board,
-    activePlayer,
-    gameTiles,
-    playerList
-  );
-  console.log(winner.getPlayerName());
+  async function gameLoop() {
+    for (let i = 0; i < 3; i++) {
+      let winner = await roundController(
+        board,
+        gameTiles,
+        playerList
+      );
+      if (winner) {
+        winner.addPlayerScore();
+      }
+
+      boardClear(board, gameTiles);
+    }
+  }
+
+  await gameLoop();
+
+  let player1Score = player1.getPlayerScore();
+  let player2Score = player2.getPlayerScore();
+
+  if (player1Score == player2Score) {
+    alert("The game has ended in a draw");
+  } else if (player1Score > player2Score) {
+    alert(
+      `The game has ended, ${player1Name}  is the winner with a score of ${player1Score}`
+    );
+  } else {
+    alert(
+      `The game has ended, ${player2Name}  is the winner with a score of ${player2Score}`
+    );
+  }
 }
 
 //button factory, create new button with click listener, and function to do
@@ -246,4 +277,12 @@ function roundPopup(action, activePlayer) {
   setTimeout(() => {
     popup.style.display = "none";
   }, 2000);
+}
+
+function boardClear(board, UIBoard) {
+  UIBoard.forEach((tile) => {
+    tile.innerHTML = "";
+  });
+
+  board.resetBoard();
 }
