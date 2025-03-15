@@ -53,6 +53,15 @@ h6 {
   --orange: #df6d14;
 }
 
+body {
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--beige);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 #title {
   font-size: 2.5rem;
   padding: var(--padding-normal);
@@ -64,17 +73,17 @@ h6 {
   font-weight: 600;
 }
 
-body {
-  height: 100vh;
+#game-container {
+  display: grid;
+  grid-template-columns: 1fr  1fr 1fr;
+  align-items: center;
+  justify-items: center;
   width: 100vw;
-  background-color: var(--beige);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  height: 80%;
 }
 
 #game-board {
-  height: 50%;
+  height: 60%;
   aspect-ratio: 1 / 1;
   align-self: center;
   display: grid;
