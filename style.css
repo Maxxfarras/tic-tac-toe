@@ -98,6 +98,22 @@ body {
   background-color: var(--green-strong);
 }
 
+button {
+  background-color: var(--green-strong);
+  color: var(--beige);
+  cursor: pointer;
+  text-align: center;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 20px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: var(--orange);
+  transform: scale(1.05);
+}
+
 #gamestart-dialog,
 #round-popup {
   position: absolute;
