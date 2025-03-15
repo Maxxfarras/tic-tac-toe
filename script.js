@@ -168,6 +168,7 @@ function roundController(board, gameTiles, playerList) {
       let activePlayerMark = activePlayer.getPlayerMark();
       let row = tile.dataset.row;
       let column = tile.dataset.column;
+      tile.style.cursor = 'default'
       tile.textContent = activePlayerMark;
       board.addMark(row, column, activePlayerMark); //add to the virtual board
       isWin = board.checkerBoard();
@@ -189,6 +190,7 @@ function roundController(board, gameTiles, playerList) {
 
     gameTiles.forEach((tile) => {
       tile.addEventListener("click", clickHandler); //adds the event listeners to the tiles
+      tile.style.cursor = 'pointer'
     });
   });
 }
