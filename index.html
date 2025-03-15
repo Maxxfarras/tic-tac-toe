@@ -15,28 +15,42 @@
   </head>
   <body>
     <div id="title">Tic-tac-toe</div>
-    <div id="game-board">
-      <div class="game-tile" data-row="0" data-column="0"></div>
-      <div class="game-tile" data-row="0" data-column="1"></div>
-      <div class="game-tile" data-row="0" data-column="2"></div>
-      <div class="game-tile" data-row="1" data-column="0"></div>
-      <div class="game-tile" data-row="1" data-column="1"></div>
-      <div class="game-tile" data-row="1" data-column="2"></div>
-      <div class="game-tile" data-row="2" data-column="0"></div>
-      <div class="game-tile" data-row="2" data-column="1"></div>
-      <div class="game-tile" data-row="2" data-column="2"></div>
+    <div id="game-container">
+      <div id="game-board">
+        <div class="game-tile" data-row="0" data-column="0"></div>
+        <div class="game-tile" data-row="0" data-column="1"></div>
+        <div class="game-tile" data-row="0" data-column="2"></div>
+        <div class="game-tile" data-row="1" data-column="0"></div>
+        <div class="game-tile" data-row="1" data-column="1"></div>
+        <div class="game-tile" data-row="1" data-column="2"></div>
+        <div class="game-tile" data-row="2" data-column="0"></div>
+        <div class="game-tile" data-row="2" data-column="1"></div>
+        <div class="game-tile" data-row="2" data-column="2"></div>
+      </div>
+      <button id="gamestart-button">Start Game</button>
     </div>
-    <button id="gamestart-button">Start Game</button>
     <footer>hello</footer>
     <dialog id="gamestart-dialog">
       <div>Start New Game</div>
       <form action="GET" id="gamestart-form">
-        <label for="player1-name">Enter Player 1 Name
-          <input type="text" placeholder="Player1" id="player1-name" name="player1-name">
+        <label for="player1-name"
+          >Enter Player 1 Name
+          <input
+            type="text"
+            placeholder="Player1"
+            id="player1-name"
+            name="player1-name"
+          />
         </label>
         <div class="player-mark">X</div>
-        <label for="player2-name"> Enter Player 2 Name
-          <input type="text" placeholder="Player2" id="player2-name" name="player2-name">
+        <label for="player2-name">
+          Enter Player 2 Name
+          <input
+            type="text"
+            placeholder="Player2"
+            id="player2-name"
+            name="player2-name"
+          />
         </label>
         <div class="player-mark">O</div>
         <button type="submit">Start!</button>
