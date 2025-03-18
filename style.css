@@ -18,7 +18,8 @@ img,
 picture,
 video,
 canvas,
-svg {
+svg,
+label {
   display: block;
   max-width: 100%;
 }
@@ -117,11 +118,42 @@ button:hover {
 #gamestart-dialog,
 #round-popup {
   position: absolute;
-  top: 50%;
+  top: 57%;
   left: 50%;
   transform: translate(-50%, -50%);
-  height: 50vh;
-  width: 50vh;
+  height: 60vh;
+  width: 60vh;
+  border: none;
+  border-radius: 20px;
+  justify-items: center;
+}
+
+#gamestart-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: max-content;
+}
+
+#gamestart-form-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+input[type="text"] {
+  border-radius: 10px;
+  width: 80%;
+}
+
+
+
+
+#gamestart-dialog > div {
+  font-size: 30px;
+  margin-bottom: 7% ;
+
 }
 
 #round-popup {

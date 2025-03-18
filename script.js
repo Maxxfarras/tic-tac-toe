@@ -256,7 +256,7 @@ function newButton(selector, func) {
 //displays a popup depending on the action
 function roundPopup(action, activePlayer) {
   let popup = document.querySelector("#round-popup");
-  popup.style.display = "block";
+  popup.style.display = "flex";
   switch (action) {
     case "start":
       popup.innerHTML = `The game started, It's ${activePlayer} turn`;
