@@ -97,6 +97,10 @@ body {
   width: 100%;
   border: solid;
   background-color: var(--green-strong);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 4rem;
 }
 
 button {
@@ -147,9 +151,6 @@ input[type="text"] {
   width: 80%;
 }
 
-
-
-
 #gamestart-dialog > div {
   font-size: 30px;
   margin-bottom: 7% ;
@@ -158,7 +159,9 @@ input[type="text"] {
 
 #round-popup {
   background-color: white;
+  font-size: 1.5rem;
   display: none;
+  justify-content: center;
   align-items: center;
-
 }
+
