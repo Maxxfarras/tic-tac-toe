@@ -131,6 +131,16 @@ const gameStart = {
     this.dialog.style.display = "none";
     gameController(player1Name, player2Name);
   },
+  playerStatManager(player1, player2) {
+    let player1Stats = document.querySelector("#player1-stats");
+    let player2Stats = document.querySelector("#player2-stats");
+    player1Stats.innerHTML = `${player1.getPlayerName()}: ${player1.getPlayerMark()}    Score: ${
+      player1.getPlayerScore
+    }`;
+    player2Stats.innerHTML = `${player2.getPlayerName()}: ${player2.getPlayerMark()}    Score: ${
+      player2.getPlayerScore
+    }`;
+  },
 };
 
 gameStart.initialize();
@@ -139,7 +149,7 @@ gameStart.initialize();
 function roundController(board, gameTiles, playerList) {
   return new Promise((resolve) => {
     let round = 0;
-    let activePlayer
+    let activePlayer;
 
     //switches the active player
     const switchPlayerTurn = () => {
@@ -168,7 +178,7 @@ function roundController(board, gameTiles, playerList) {
       let activePlayerMark = activePlayer.getPlayerMark();
       let row = tile.dataset.row;
       let column = tile.dataset.column;
-      tile.style.cursor = 'default'
+      tile.style.cursor = "default";
       tile.textContent = activePlayerMark;
       board.addMark(row, column, activePlayerMark); //add to the virtual board
       isWin = board.checkerBoard();
@@ -190,7 +200,7 @@ function roundController(board, gameTiles, playerList) {
 
     gameTiles.forEach((tile) => {
       tile.addEventListener("click", clickHandler); //adds the event listeners to the tiles
-      tile.style.cursor = 'pointer'
+      tile.style.cursor = "pointer";
     });
   });
 }
@@ -210,11 +220,8 @@ async function gameController(player1Name, player2Name) {
 
   async function gameLoop() {
     for (let i = 0; i < 3; i++) {
-      let winner = await roundController(
-        board,
-        gameTiles,
-        playerList
-      );
+      playerStatManager(player1, player2)
+      let winner = await roundController(board, gameTiles, playerList);
       if (winner) {
         winner.addPlayerScore();
       }
@@ -289,4 +296,15 @@ function boardClear(board, UIBoard) {
   });
 
   board.resetBoard();
+}
+
+function playerStatManager(player1, player2) {
+  let player1Stats = document.querySelector("#player1-stats");
+  let player2Stats = document.querySelector("#player2-stats");
+  player1Stats.innerHTML = `${player1.getPlayerName()}: ${player1.getPlayerMark()}    Score: ${
+    player1.getPlayerScore()
+  }`;
+  player2Stats.innerHTML = `${player2.getPlayerName()}: ${player2.getPlayerMark()}    Score: ${
+    player2.getPlayerScore()
+  }`;
 }
