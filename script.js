@@ -99,15 +99,29 @@ gameboard = (function () {
 })();
 
 //creates the player obj
-player = function (name, mark) {
+player = function (name, mark, num) {
   let playerName = name;
   let playerMark = mark;
   let playerScore = 0;
+  let playerStat = document.querySelector(`#player${num}-stats`);
   const getPlayerName = () => playerName;
   const getPlayerMark = () => playerMark;
   const getPlayerScore = () => playerScore;
   const addPlayerScore = () => (playerScore += 1);
-  return { getPlayerName, getPlayerMark, getPlayerScore, addPlayerScore };
+  const highlightStats = () => {
+    playerStat.style.backgroundColor = "blue";
+  };
+  const noHighlightStats = () => {
+    playerStat.style.backgroundColor = "";
+  };
+  return {
+    getPlayerName,
+    getPlayerMark,
+    getPlayerScore,
+    addPlayerScore,
+    highlightStats,
+    noHighlightStats,
+  };
 };
 
 //responsible of the initial dialog and start the game
@@ -170,6 +184,8 @@ function roundController(board, gameTiles, playerList) {
 
     roundPopup("start", activePlayer.getPlayerName());
 
+    activePlayer.highlightStats();
+
     //main function in charge of the round flow
     function clickHandler(event) {
       let tile = event.target;
@@ -184,6 +200,7 @@ function roundController(board, gameTiles, playerList) {
       isWin = board.checkerBoard();
       tile.removeEventListener("click", clickHandler); //removes the clickHandler to the individual tile
       round += 1;
+      activePlayer.noHighlightStats();
       if (isWin) {
         roundPopup("roundWinner", activePlayerName);
         removeClickHandler(gameTiles, clickHandler);
@@ -194,7 +211,7 @@ function roundController(board, gameTiles, playerList) {
         resolve(undefined);
       } else {
         switchPlayerTurn(); //switches activePlayer in each round
-        //roundPopup("round", activePlayer.getPlayerName());
+        activePlayer.highlightStats();
       }
     }
 
@@ -210,8 +227,8 @@ async function gameController(player1Name, player2Name) {
 
   //creates the player object
   const playerList = [
-    (player1 = player(player1Name, "X")),
-    (player2 = player(player2Name, "O")),
+    (player1 = player(player1Name, "X", 1)),
+    (player2 = player(player2Name, "O", 2)),
   ];
 
   let gameTiles = document.querySelectorAll(".game-tile");
@@ -220,7 +237,7 @@ async function gameController(player1Name, player2Name) {
 
   async function gameLoop() {
     for (let i = 0; i < 3; i++) {
-      playerStatManager(player1, player2)
+      playerStatManager(player1, player2);
       let winner = await roundController(board, gameTiles, playerList);
       if (winner) {
         winner.addPlayerScore();
@@ -301,10 +318,6 @@ function boardClear(board, UIBoard) {
 function playerStatManager(player1, player2) {
   let player1Stats = document.querySelector("#player1-stats");
   let player2Stats = document.querySelector("#player2-stats");
-  player1Stats.innerHTML = `${player1.getPlayerName()}: ${player1.getPlayerMark()}    Score: ${
-    player1.getPlayerScore()
-  }`;
-  player2Stats.innerHTML = `${player2.getPlayerName()}: ${player2.getPlayerMark()}    Score: ${
-    player2.getPlayerScore()
-  }`;
+  player1Stats.innerHTML = `${player1.getPlayerName()}: ${player1.getPlayerMark()}    Score: ${player1.getPlayerScore()}`;
+  player2Stats.innerHTML = `${player2.getPlayerName()}: ${player2.getPlayerMark()}    Score: ${player2.getPlayerScore()}`;
 }
