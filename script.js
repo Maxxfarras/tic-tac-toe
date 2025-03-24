@@ -184,7 +184,7 @@ function roundController(board, gameTiles, playerList) {
         resolve(undefined);
       } else {
         switchPlayerTurn(); //switches activePlayer in each round
-        roundPopup("round", activePlayer.getPlayerName());
+        //roundPopup("round", activePlayer.getPlayerName());
       }
     }
 
@@ -205,6 +205,8 @@ async function gameController(player1Name, player2Name) {
   ];
 
   let gameTiles = document.querySelectorAll(".game-tile");
+
+  boardClear(board, gameTiles);
 
   async function gameLoop() {
     for (let i = 0; i < 3; i++) {
