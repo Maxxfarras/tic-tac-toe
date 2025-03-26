@@ -1,7 +1,7 @@
 //The main function, operates the virtual board
 gameboard = (function () {
-  rows = 3;
-  columns = 3;
+  let rows = 3;
+  let columns = 3;
 
   let board = [];
 
@@ -140,20 +140,10 @@ const gameStart = {
   handleSubmit(event) {
     event.preventDefault();
     let formData = new FormData(this.form);
-    player1Name = formData.get("player1-name");
-    player2Name = formData.get("player2-name");
+    let player1Name = formData.get("player1-name");
+    let player2Name = formData.get("player2-name");
     this.dialog.style.display = "none";
     gameController(player1Name, player2Name);
-  },
-  playerStatManager(player1, player2) {
-    let player1Stats = document.querySelector("#player1-stats");
-    let player2Stats = document.querySelector("#player2-stats");
-    player1Stats.innerHTML = `${player1.getPlayerName()}: ${player1.getPlayerMark()}    Score: ${
-      player1.getPlayerScore
-    }`;
-    player2Stats.innerHTML = `${player2.getPlayerName()}: ${player2.getPlayerMark()}    Score: ${
-      player2.getPlayerScore
-    }`;
   },
 };
 
@@ -203,12 +193,16 @@ function roundController(board, gameTiles, playerList) {
       activePlayer.noHighlightStats();
       if (isWin) {
         roundPopup("roundWinner", activePlayerName);
-        removeClickHandler(gameTiles, clickHandler);
-        resolve(activePlayer);
+        setTimeout(() => {
+          removeClickHandler(gameTiles, clickHandler);
+          resolve(activePlayer);
+        }, 1500);
       } else if (round >= 9) {
         roundPopup("draw", activePlayerName);
-        removeClickHandler(gameTiles, clickHandler);
-        resolve(undefined);
+        setTimeout(() => {
+          removeClickHandler(gameTiles, clickHandler);
+          resolve(undefined);
+        }, 1500);
       } else {
         switchPlayerTurn(); //switches activePlayer in each round
         activePlayer.highlightStats();
@@ -282,13 +276,12 @@ function newButton(selector, func) {
 //displays a popup depending on the action
 function roundPopup(action, activePlayer) {
   let popup = document.querySelector("#round-popup");
+
   popup.style.display = "flex";
+
   switch (action) {
     case "start":
       popup.innerHTML = `The game started, It's ${activePlayer} turn`;
-      break;
-    case "round":
-      popup.innerHTML = `It's ${activePlayer} turn!`;
       break;
     case "roundWinner":
       popup.innerHTML = `Round won by ${activePlayer}!`;
@@ -304,7 +297,7 @@ function roundPopup(action, activePlayer) {
   //disappear after 2 seconds
   setTimeout(() => {
     popup.style.display = "none";
-  }, 2000);
+  }, 3000);
 }
 
 function boardClear(board, UIBoard) {
