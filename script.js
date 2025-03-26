@@ -109,7 +109,7 @@ player = function (name, mark, num) {
   const getPlayerScore = () => playerScore;
   const addPlayerScore = () => (playerScore += 1);
   const highlightStats = () => {
-    playerStat.style.backgroundColor = "blue";
+    playerStat.style.backgroundColor = "var(--green-light)";
   };
   const noHighlightStats = () => {
     playerStat.style.backgroundColor = "";
@@ -230,6 +230,8 @@ async function gameController(player1Name, player2Name, roundNumber) {
 
   boardClear(board, gameTiles);
 
+  gameReset(gameTiles)
+
   async function gameLoop() {
     for (let i = 0; i < roundNumber; i++) {
       playerStatManager(player1, player2);
@@ -317,6 +319,8 @@ function playerStatManager(player1, player2) {
 function gameReset(gameTiles) {
   let player1Stats = document.querySelector('#player1-stats')
   let player2Stats = document.querySelector('#player2-stats')
+  player1Stats.style.backgroundColor = ''
+  player2Stats.style.backgroundColor = ''
   player1Stats.innerHTML = ''
   player2Stats.innerHTML = ''
   gameTiles.innerHTML = ''

@@ -76,7 +76,7 @@ body {
 
 #game-container {
   display: grid;
-  grid-template-columns: 1fr  1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
   justify-items: center;
   width: 100vw;
@@ -105,6 +105,7 @@ body {
 
 button {
   background-color: var(--green-strong);
+  font-size: 1.2rem;
   color: var(--beige);
   cursor: pointer;
   text-align: center;
@@ -117,6 +118,10 @@ button {
 button:hover {
   background-color: var(--orange);
   transform: scale(1.05);
+}
+
+button[type="submit"] {
+  margin-top: 20px;
 }
 
 #gamestart-dialog,
@@ -155,8 +160,7 @@ input[type="number"] {
 
 #gamestart-dialog > div {
   font-size: 30px;
-  margin-bottom: 7% ;
-
+  margin-bottom: 7%;
 }
 
 #round-popup {
@@ -168,6 +172,17 @@ input[type="number"] {
 }
 
 #game-stats {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   font-size: 1.5rem;
+}
+
+#game-stats > div {
+  display: flex;
+  justify-content: center;
+  padding: 4px;
+  max-width: 20vw;
+  border-radius: 20px;
 }
