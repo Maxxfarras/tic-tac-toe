@@ -142,7 +142,7 @@ const gameStart = {
     let formData = new FormData(this.form);
     let player1Name = formData.get("player1-name");
     let player2Name = formData.get("player2-name");
-    let roundNumber = formData.get("round-number")
+    let roundNumber = formData.get("round-number");
     this.dialog.style.display = "none";
     gameController(player1Name, player2Name, roundNumber);
   },
@@ -247,7 +247,7 @@ async function gameController(player1Name, player2Name, roundNumber) {
   let player1Score = player1.getPlayerScore();
   let player2Score = player2.getPlayerScore();
 
-  let startButton = document.querySelector('#gamestart-button')
+  let startButton = document.querySelector("#gamestart-button");
 
   if (player1Score == player2Score) {
     roundPopup("draw", player1Name);
@@ -258,7 +258,7 @@ async function gameController(player1Name, player2Name, roundNumber) {
     roundPopup("gameWinner", player2Name);
   }
 
-  gameReset(gameTiles)
+  gameReset(gameTiles);
 }
 
 //displays a popup depending on the action
@@ -304,11 +304,11 @@ function playerStatManager(player1, player2) {
 }
 
 function gameReset(gameTiles) {
-  let player1Stats = document.querySelector('#player1-stats')
-  let player2Stats = document.querySelector('#player2-stats')
-  player1Stats.style.backgroundColor = ''
-  player2Stats.style.backgroundColor = ''
-  player1Stats.innerHTML = ''
-  player2Stats.innerHTML = ''
-  gameTiles.innerHTML = ''
+  let player1Stats = document.querySelector("#player1-stats");
+  let player2Stats = document.querySelector("#player2-stats");
+  player1Stats.style.backgroundColor = "";
+  player2Stats.style.backgroundColor = "";
+  player1Stats.innerHTML = "";
+  player2Stats.innerHTML = "";
+  gameTiles.innerHTML = "";
 }
