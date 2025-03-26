@@ -261,20 +261,6 @@ async function gameController(player1Name, player2Name, roundNumber) {
   gameReset(gameTiles)
 }
 
-//button factory, create new button with click listener, and function to do
-function newButton(selector, func) {
-  const button = document.querySelector(selector);
-  const removeListener = () => button.removeListener("click", clickHandler());
-  button.addEventListener("click", function (event) {
-    event.preventDefault();
-    func();
-  });
-  return {
-    button,
-    removeListener,
-  };
-}
-
 //displays a popup depending on the action
 function roundPopup(action, activePlayer) {
   let popup = document.querySelector("#round-popup");
