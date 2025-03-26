@@ -142,8 +142,9 @@ const gameStart = {
     let formData = new FormData(this.form);
     let player1Name = formData.get("player1-name");
     let player2Name = formData.get("player2-name");
+    let roundNumber = formData.get("round-number")
     this.dialog.style.display = "none";
-    gameController(player1Name, player2Name);
+    gameController(player1Name, player2Name, roundNumber);
   },
 };
 
@@ -216,7 +217,7 @@ function roundController(board, gameTiles, playerList) {
   });
 }
 
-async function gameController(player1Name, player2Name) {
+async function gameController(player1Name, player2Name, roundNumber) {
   const board = gameboard;
 
   //creates the player object
@@ -230,7 +231,7 @@ async function gameController(player1Name, player2Name) {
   boardClear(board, gameTiles);
 
   async function gameLoop() {
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < roundNumber; i++) {
       playerStatManager(player1, player2);
       let winner = await roundController(board, gameTiles, playerList);
       if (winner) {
@@ -318,6 +319,5 @@ function gameReset(gameTiles) {
   let player2Stats = document.querySelector('#player2-stats')
   player1Stats.innerHTML = ''
   player2Stats.innerHTML = ''
-  gameTiles.style.cursor = 'default'
   gameTiles.innerHTML = ''
 }

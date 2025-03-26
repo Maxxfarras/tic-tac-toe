@@ -27,14 +27,13 @@
         <div class="game-tile" data-row="2" data-column="0"></div>
         <div class="game-tile" data-row="2" data-column="1"></div>
         <div class="game-tile" data-row="2" data-column="2"></div>
-        
       </div>
       <button id="gamestart-button">Start Game</button>
     </div>
     <div id="game-stats">
-          <div id="player1-stats"></div>
-          <div id="player2-stats"></div>
-        </div>
+      <div id="player1-stats"></div>
+      <div id="player2-stats"></div>
+    </div>
 
     <footer>hello</footer>
     <dialog id="gamestart-dialog">
@@ -59,6 +58,15 @@
             required
           />
           <div class="player-mark">O</div>
+          <label for="round-number">Rounds?</label>
+          <input
+            type="number"
+            placeholder="5"
+            id="round-number"
+            name="round-number"
+            max="10"
+            required
+          />
         </div>
         <button type="submit">Start!</button>
       </form>
