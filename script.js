@@ -256,6 +256,7 @@ async function gameController(player1Name, player2Name, roundNumber) {
     startButton.disabled = false;
   } else {
     roundPopup("gameWinner", player2Name);
+    startButton.disabled = false;
   }
 
   gameReset(gameTiles);
