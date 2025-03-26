@@ -247,16 +247,14 @@ async function gameController(player1Name, player2Name) {
   let player2Score = player2.getPlayerScore();
 
   if (player1Score == player2Score) {
-    alert("The game has ended in a draw");
+    roundPopup("draw", player1Name);
   } else if (player1Score > player2Score) {
-    alert(
-      `The game has ended, ${player1Name}  is the winner with a score of ${player1Score}`
-    );
+    roundPopup("gameWinner", player1Name);
   } else {
-    alert(
-      `The game has ended, ${player2Name}  is the winner with a score of ${player2Score}`
-    );
+    roundPopup("gameWinner", player2Name);
   }
+
+  gameReset(gameTiles)
 }
 
 //button factory, create new button with click listener, and function to do
@@ -313,4 +311,13 @@ function playerStatManager(player1, player2) {
   let player2Stats = document.querySelector("#player2-stats");
   player1Stats.innerHTML = `${player1.getPlayerName()}: ${player1.getPlayerMark()}    Score: ${player1.getPlayerScore()}`;
   player2Stats.innerHTML = `${player2.getPlayerName()}: ${player2.getPlayerMark()}    Score: ${player2.getPlayerScore()}`;
+}
+
+function gameReset(gameTiles) {
+  let player1Stats = document.querySelector('#player1-stats')
+  let player2Stats = document.querySelector('#player2-stats')
+  player1Stats.innerHTML = ''
+  player2Stats.innerHTML = ''
+  gameTiles.style.cursor = 'default'
+  gameTiles.innerHTML = ''
 }
