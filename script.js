@@ -230,8 +230,6 @@ async function gameController(player1Name, player2Name, roundNumber) {
 
   boardClear(board, gameTiles);
 
-  gameReset(gameTiles)
-
   async function gameLoop() {
     for (let i = 0; i < roundNumber; i++) {
       playerStatManager(player1, player2);
@@ -249,10 +247,13 @@ async function gameController(player1Name, player2Name, roundNumber) {
   let player1Score = player1.getPlayerScore();
   let player2Score = player2.getPlayerScore();
 
+  let startButton = document.querySelector('#gamestart-button')
+
   if (player1Score == player2Score) {
     roundPopup("draw", player1Name);
   } else if (player1Score > player2Score) {
     roundPopup("gameWinner", player1Name);
+    startButton.disabled = false;
   } else {
     roundPopup("gameWinner", player2Name);
   }
